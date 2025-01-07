@@ -2,9 +2,10 @@ import "./styles.css";
 function ScreenController() {
   const arrowLeftButton = document.querySelector(".arrow-left-button");
   function closeLateralMenu() {
-    const lateralMenu = document.querySelector(".lateral-menu");
+    document.querySelector(".lateral-menu").classList.toggle("closed");
+    document.querySelector(".arrow-left-button").classList.toggle("rotate");
   }
-  arrowLeftButton.addEventListener("click", closeLateralBar);
+  arrowLeftButton.addEventListener("click", closeLateralMenu);
 }
 
 ScreenController();

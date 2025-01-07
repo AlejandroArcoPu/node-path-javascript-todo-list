@@ -45,25 +45,43 @@ ul {
 }
 
 .lateral-menu {
+  position: relative;
   font-size: 0.9rem;
   background-color: #3a3a3a;
-  width: 300px;
+  flex: 0 0 300px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: margin-left 1s;
+}
+
+.lateral-menu.closed {
+  margin-left: -300px;
 }
 
 .arrow-left-button {
+  position: absolute;
   background-color: #3a3a3a;
   border: none;
-  border-radius: 999px;
+  border-radius: 50%;
   padding: 8px;
   align-self: end;
   cursor: pointer;
+  transition: margin-right 1s;
+}
+
+.arrow-left-button.rotate {
+  transform: rotate(180deg);
+  margin-right: -70px;
+  background-color: #252525;
 }
 
 .arrow-left-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.arrow-left-button.rotate:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -92,6 +110,5 @@ ul {
 
 main {
   background-color: #252525;
-  display: flex;
-  flex-grow: 1;
+  flex: 1 1 auto;
 }
