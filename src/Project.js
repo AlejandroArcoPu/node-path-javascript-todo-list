@@ -1,7 +1,6 @@
 export class Project {
-  constructor(name, color, description) {
+  constructor(name, color) {
     this.name = name;
     this.color = color;
-    this.description = description;
   }
 }

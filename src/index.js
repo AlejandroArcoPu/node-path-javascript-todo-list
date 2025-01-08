@@ -1,14 +1,16 @@
 import "./styles.css";
 import { User } from "./User";
 import { DataManager } from "./DataManager";
+import { Project } from "./Project";
+import { Task } from "./Task";
 
 function ScreenController() {
+  const projectColors = ["red", "blue", "yellow", "orange", "purple"];
   const user = new User(localStorage.getItem("userNameEasyTasks"));
   const data = new DataManager();
 
   const showLateralMenu = () => {
     const arrowLeftButton = document.querySelector(".arrow-left-button");
-
     const toggleLateralMenu = () => {
       document.querySelector(".lateral-menu").classList.toggle("closed");
       document.querySelector(".arrow-left-button").classList.toggle("rotate");
