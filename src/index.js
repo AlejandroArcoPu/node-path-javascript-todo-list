@@ -1,8 +1,10 @@
 import "./styles.css";
 import { User } from "./User";
+import { DataManager } from "./DataManager";
 
 function ScreenController() {
   const user = new User(localStorage.getItem("userNameEasyTasks"));
+  const data = new DataManager();
 
   const showLateralMenu = () => {
     const arrowLeftButton = document.querySelector(".arrow-left-button");

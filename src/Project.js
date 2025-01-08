@@ -4,14 +4,4 @@ export class Project {
     this.color = color;
     this.description = description;
   }
-
-  get name() {
-    return this.name;
-  }
-  get color() {
-    return this.color;
-  }
-  get description() {
-    return this.description;
-  }
 }
