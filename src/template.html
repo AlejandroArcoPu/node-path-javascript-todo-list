@@ -13,9 +13,13 @@
   </head>
   <body>
     <nav class="lateral-menu">
-      <button class="arrow-left-button">
-        <img src="./images/arrow-left.svg" alt="Arrow left icon" />
-      </button>
+      <div class="user">
+        <img class="user-icon" src="./images/user.svg" alt="User icon" />
+        <p>User</p>
+        <button class="arrow-left-button">
+          <img src="./images/arrow-left.svg" alt="Arrow left icon" />
+        </button>
+      </div>
       <button class="create-task">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,9 +39,30 @@
         <li><button>Calendar</button></li>
       </ul>
       <ul class="myprojects-menu">
-        <li><button>My Projects</button></li>
+        <li><button>Projects</button></li>
       </ul>
     </nav>
     <main class="content"></main>
+    <dialog class="name-dialog">
+      <form class="name-form" action="">
+        <div class="name-div">
+          <label for="name"
+            >Please enter your name to personalize your task management
+            experience</label
+          >
+          <input
+            class="name-input"
+            type="text"
+            id="name"
+            for="name"
+            placeholder="User name"
+            maxlength="15"
+          />
+        </div>
+        <input class="name-submit" type="submit" value="Submit" />
+      </form>
+      <!-- <p>Introduce your name to do a proper task management</p>
+      <input type="text"> -->
+    </dialog>
   </body>
 </html>

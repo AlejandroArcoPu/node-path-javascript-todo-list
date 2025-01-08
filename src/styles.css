@@ -45,15 +45,24 @@ ul {
 }
 
 .lateral-menu {
-  position: relative;
   font-size: 0.9rem;
   background-color: #3a3a3a;
   flex: 0 0 300px;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   transition: margin-left 1s;
+  color: #cdcdcd;
+}
+
+.user {
+  font-size: 1.1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
 }
 
 .lateral-menu.closed {
@@ -66,7 +75,7 @@ ul {
   border: none;
   border-radius: 50%;
   padding: 8px;
-  align-self: end;
+  right: 0;
   cursor: pointer;
   transition: margin-right 1s;
 }
@@ -93,9 +102,9 @@ ul {
 
 .create-task {
   border: none;
-  background-color: #3a3a3a;
+  background-color: #8cb4ff;
   border: 2px solid #8cb4ff;
-  color: #cdcdcd;
+  color: #013491;
   font-weight: 600;
   border-radius: 5px;
   padding: 8px 10px;
@@ -104,11 +113,63 @@ ul {
 }
 
 .create-task:hover {
-  background-color: #0085f230;
-  color: #8cb4ff;
+  background-color: #73a4fe;
 }
 
 main {
   background-color: #252525;
   flex: 1 1 auto;
+}
+
+.name-dialog {
+  background-color: #2d2d2d;
+  border: none;
+  color: #cdcdcd;
+  border-radius: 5px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  outline: rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 0px 5px grey;
+  border: 1px solid #a4a4a4;
+}
+
+.name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.name-div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name-input {
+  width: 300px;
+  background-color: #2d2d2d;
+  border: 1px solid #a4a4a4;
+  border-radius: 5px;
+  padding: 8px 12px;
+  color: #cdcdcd;
+  outline: none;
+}
+
+.name-input:focus {
+  border: 2px solid #8cb4ff;
+}
+
+.name-submit {
+  width: fit-content;
+  border: none;
+  padding: 5px 20px;
+  border-radius: 5px;
+  background-color: #8cb4ff;
+  color: #013491;
+  cursor: pointer;
+}
+
+.name-submit:hover {
+  background-color: #73a4fe;
 }
