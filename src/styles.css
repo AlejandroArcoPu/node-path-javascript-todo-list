@@ -86,6 +86,7 @@ ul {
   background-color: #252525;
 }
 
+.myprojects-menu button:hover,
 .arrow-left-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -134,6 +135,10 @@ main {
   border: 1px solid #a4a4a4;
 }
 
+.name-dialog::backdrop {
+  background-color: rgb(0 0 0 / 40%);
+}
+
 .name-form {
   display: flex;
   flex-direction: column;
@@ -172,4 +177,21 @@ main {
 
 .name-submit:hover {
   background-color: #73a4fe;
+}
+.name-submit:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.myprojects-menu button {
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  padding: 8px 10px;
+  text-align: left;
+  background-color: #3a3a3a;
+  color: #cdcdcd;
+  cursor: pointer;
 }

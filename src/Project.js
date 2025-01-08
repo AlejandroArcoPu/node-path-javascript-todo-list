@@ -14,14 +14,4 @@ export class Project {
   get description() {
     return this.description;
   }
-
-  set name(name) {
-    this.name = name;
-  }
-  set color(color) {
-    this.color = color;
-  }
-  set description(description) {
-    this.description = description;
-  }
 }
