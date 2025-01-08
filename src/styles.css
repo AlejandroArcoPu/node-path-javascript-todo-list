@@ -85,6 +85,8 @@ ul {
   margin-right: -70px;
   background-color: #252525;
 }
+
+.myprojects-elements:hover,
 .myprojects-menu button:hover,
 .arrow-left-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
@@ -103,7 +105,6 @@ ul {
 .create-task {
   border: none;
   background-color: #8cb4ff;
-  border: 2px solid #8cb4ff;
   color: #013491;
   font-weight: 600;
   border-radius: 5px;
@@ -186,9 +187,15 @@ main {
 
 .myprojects-menu {
   display: flex;
+  flex-direction: column;
+}
+
+.myprojects-title {
+  font-weight: bold;
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
+  margin-bottom: 5px;
 }
 
 .myprojects-icons {
@@ -197,8 +204,36 @@ main {
 }
 
 .arrow-down {
+  /* for a weird reason the arrow is not in the middle*/
   display: flex;
   justify-content: center;
+}
+
+.myprojects-elements {
+  display: flex;
+  gap: 8px;
+  border-radius: 5px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.myprojects-elements span {
+  height: 15px;
+  width: 15px;
+  border: 1px solid #cdcdcd;
+  display: inline-block;
+  position: relative;
+}
+
+[type="checkbox"]:checked + span:before {
+  content: "\2714";
+  position: absolute;
+  top: -5px;
+  left: 0;
+}
+
+.myprojects-elements input {
+  display: none;
 }
 
 .myprojects-menu button {

@@ -9,6 +9,7 @@ function ScreenController() {
   const user = new User(localStorage.getItem("userNameEasyTasks"));
   const data = new DataManager();
 
+  data.addProject(new Project("Prueba", "blue"));
   const showLateralMenu = () => {
     const arrowLeftButton = document.querySelector(".arrow-left-button");
     const toggleLateralMenu = () => {
@@ -55,6 +56,31 @@ function ScreenController() {
     userName.textContent = user.name;
   };
 
+  const showProjects = () => {
+    const myProjectsMenu = document.querySelector(".myprojects-menu");
+    data.projects.forEach((project) => {
+      const projectLi = document.createElement("li");
+
+      const projectLabel = document.createElement("label");
+      projectLabel.textContent = project.name;
+      projectLabel.classList = "myprojects-elements";
+
+      const projectSpan = document.createElement("span");
+
+      const projectInput = document.createElement("input");
+      projectInput.type = "checkbox";
+      projectInput.name = `${project.name.replace(" ", "")}`;
+      projectInput.id = `${project.name.replace(" ", "")}`;
+
+      projectLabel.prepend(projectSpan);
+      projectLabel.prepend(projectInput);
+
+      projectLi.appendChild(projectLabel);
+      myProjectsMenu.appendChild(projectLi);
+    });
+  };
+
+  showProjects();
   showUserName();
   showNameDialog();
   showLateralMenu();
