@@ -86,7 +86,9 @@ ul {
   background-color: #252525;
 }
 
-.myprojects-elements:hover,
+.calendar-button:hover,
+.today-button:hover,
+.myprojects-label:hover,
 .myprojects-menu button:hover,
 .arrow-left-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
@@ -96,6 +98,8 @@ ul {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.calendar-button img,
+.today-button img,
 .create-task svg {
   display: inline;
   margin-right: 8px;
@@ -111,10 +115,12 @@ ul {
   padding: 8px 10px;
   text-align: left;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .create-task:hover {
   background-color: #73a4fe;
+  transform: scale(1.05);
 }
 
 main {
@@ -122,6 +128,7 @@ main {
   flex: 1 1 auto;
 }
 
+.project-creation-dialog,
 .name-dialog {
   background-color: #2d2d2d;
   border: none;
@@ -133,8 +140,10 @@ main {
   outline: rgba(255, 255, 255, 0.1);
   box-shadow: 0px 0px 5px grey;
   border: 1px solid #a4a4a4;
+  max-width: 380px;
 }
 
+.project-creation-dialog::backdrop,
 .name-dialog::backdrop {
   background-color: rgb(0 0 0 / 40%);
 }
@@ -151,6 +160,8 @@ main {
   gap: 10px;
 }
 
+.colors-select,
+.project-input,
 .name-input {
   width: 300px;
   background-color: #2d2d2d;
@@ -161,10 +172,13 @@ main {
   outline: none;
 }
 
+.colors-select:focus,
+.project-input:focus,
 .name-input:focus {
   border: 2px solid #8cb4ff;
 }
-
+.cancel-project-button,
+.done-project-button,
 .name-submit {
   width: fit-content;
   border: none;
@@ -174,10 +188,21 @@ main {
   color: #013491;
   cursor: pointer;
 }
+.cancel-project-button {
+  background-color: #ff8c8c;
+  color: #910101;
+}
 
+.done-project-button:hover,
 .name-submit:hover {
   background-color: #73a4fe;
 }
+
+.cancel-project-button:hover {
+  background-color: #fe7373;
+}
+
+.done-project-button:disabled,
 .name-submit:disabled {
   border: 1px solid #999999;
   background-color: #cccccc;
@@ -200,39 +225,67 @@ main {
 
 .myprojects-icons {
   display: flex;
-  gap: 5px;
+  gap: 4px;
 }
 
+.add-project-icon,
 .arrow-down {
   /* for a weird reason the arrow is not in the middle*/
   display: flex;
   justify-content: center;
 }
 
-.myprojects-elements {
+.myprojects-label {
   display: flex;
+  align-items: center;
   gap: 8px;
   border-radius: 5px;
   padding: 8px 10px;
   cursor: pointer;
 }
 
-.myprojects-elements span {
+.myprojects-label span {
   height: 15px;
   width: 15px;
-  border: 1px solid #cdcdcd;
+  border-radius: 5px;
+  /* background-color: rgb(255, 131, 131); */
   display: inline-block;
   position: relative;
 }
 
-[type="checkbox"]:checked + span:before {
-  content: "\2714";
-  position: absolute;
-  top: -5px;
-  left: 0;
+.red {
+  border: 2px solid #fb6b6b;
 }
 
-.myprojects-elements input {
+.blue {
+  border: 2px solid #5858fd;
+}
+
+.orange {
+  border: 2px solid #fdc058;
+}
+
+.purple {
+  border: 2px solid #be58fd;
+}
+
+.yellow {
+  border: 2px solid #f2fd58;
+}
+
+.span-color {
+  width: 20px;
+  height: 20px;
+}
+
+[type="checkbox"]:checked + span:before {
+  content: url("./images/check.svg");
+  position: absolute;
+  top: -4px;
+  left: 1px;
+}
+
+.myprojects-label input {
   display: none;
 }
 
@@ -243,5 +296,56 @@ main {
   color: #cdcdcd;
   cursor: pointer;
   border-radius: 50%;
-  padding: 8px;
+  padding: 7px;
+}
+
+.myprojects-element.not-display {
+  display: none;
+}
+
+.arrow-down.not-display {
+  transform: rotate(-90deg);
+}
+
+.separator {
+  border: 1px solid #cdcdcd30;
+  width: 100%;
+}
+
+.project-creation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.project-creation-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
+
+.project-creation-form-element {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-input-count {
+  align-self: end;
+}
+
+.project-creation-title {
+  font-weight: bold;
+}
+
+.calendar-button,
+.today-button {
+  width: 100%;
+  border: none;
+  background-color: #3a3a3a;
+  color: #cdcdcd;
+  border-radius: 5px;
+  font-weight: 600;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
 }

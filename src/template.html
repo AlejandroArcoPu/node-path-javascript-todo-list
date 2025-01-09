@@ -35,14 +35,24 @@
         Add a task
       </button>
       <ul>
-        <li><button>Today</button></li>
-        <li><button>Calendar</button></li>
+        <li>
+          <button class="today-button">
+            <img src="./images/day.svg" alt="Today Icon" />Today
+          </button>
+        </li>
+        <li>
+          <button class="calendar-button">
+            <img src="./images/calendar.svg" alt="Calendar Icon" />Calendar
+          </button>
+        </li>
       </ul>
       <ul class="myprojects-menu">
         <li class="myprojects-title">
           Projects
           <div class="myprojects-icons">
-            <button><img src="./images/add.svg" alt="" /></button>
+            <button class="add-project-icon">
+              <img src="./images/add.svg" alt="" />
+            </button>
             <button class="arrow-down">
               <img src="./images/arrow-down.svg" alt="" />
             </button>
@@ -74,6 +84,34 @@
           />
         </div>
         <button class="name-submit" type="submit" disabled>Submit</button>
+      </form>
+    </dialog>
+    <dialog class="project-creation-dialog">
+      <form class="project-creation-form" action="">
+        <p class="project-creation-title">Create project</p>
+        <div class="separator"></div>
+        <div class="project-creation-form-element">
+          <label class="project-creation-label" for="project">Name</label>
+          <input
+            class="project-input"
+            type="text"
+            id="project"
+            for="project"
+            placeholder="Enter name"
+            maxlength="20"
+          />
+          <div class="project-input-count">0/20</div>
+        </div>
+        <div class="project-creation-form-element">
+          <label class="project-creation-label" for="colors">Color</label>
+          <select class="colors-select" name="colors" id="colors"></select>
+        </div>
+        <div class="project-creation-buttons">
+          <button class="cancel-project-button">Cancel</button
+          ><button type="submit" class="done-project-button" disabled>
+            Done
+          </button>
+        </div>
       </form>
     </dialog>
   </body>
