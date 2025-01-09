@@ -126,6 +126,11 @@ ul {
 main {
   background-color: #252525;
   flex: 1 1 auto;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 60px 50px;
 }
 
 .project-creation-dialog,
@@ -248,7 +253,6 @@ main {
   height: 15px;
   width: 15px;
   border-radius: 5px;
-  /* background-color: rgb(255, 131, 131); */
   display: inline-block;
   position: relative;
 }
@@ -348,4 +352,30 @@ main {
   padding: 8px 10px;
   text-align: left;
   cursor: pointer;
+}
+
+.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.number-task {
+  font-size: 0.8rem;
+  color: #cdcdcd;
+}
+
+.main-add-task {
+  background-color: #252525;
+  border: none;
+  color: #cdcdcd;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.main-add-task:hover {
+  color: #8cb4ff;
 }

@@ -1,6 +1,7 @@
 import "./styles.css";
 import { User } from "./User";
 import { DataManager } from "./DataManager";
+import addIcon from "./images/add-without-border.svg";
 
 function ScreenController() {
   const projectColors = [
@@ -192,6 +193,54 @@ function ScreenController() {
     createSelectColors();
   };
 
+  const displayToday = () => {
+    const todayButton = document.querySelector(".today-button");
+    const today = new Date();
+    const options = {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+
+    todayButton.classList = "today-button active";
+    const main = document.querySelector("main");
+    const todayH1 = document.createElement("h1");
+    todayH1.textContent = "Today";
+
+    const subtitleDiv = document.createElement("div");
+
+    const datePara = document.createElement("p");
+    datePara.textContent = `${today.toLocaleDateString("en-GB", options)}`;
+    const numberTask = document.createElement("p");
+    numberTask.textContent = "0 tasks";
+    numberTask.classList = "number-task";
+    subtitleDiv.appendChild(datePara);
+    subtitleDiv.appendChild(numberTask);
+
+    const addTaskButton = document.createElement("button");
+    addTaskButton.classList = "main-add-task";
+    addTaskButton.textContent = "Add a task";
+
+    const addWithoutBorderImg = document.createElement("img");
+    addWithoutBorderImg.src = addIcon;
+    addTaskButton.prepend(addWithoutBorderImg);
+
+    const addTaskFormMain = document.createElement("main");
+
+    main.appendChild(todayH1);
+    main.appendChild(subtitleDiv);
+    main.appendChild(addTaskButton);
+  };
+
+  const displayTaskCreationMain = () => {
+    const addTaskButton = document.querySelector(".main-add-task");
+    const displayFormTaskMain = () => {};
+    addTaskButton.addEventListener("click", displayFormTaskMain);
+  };
+
+  displayToday();
+  displayTaskCreationMain();
   setUserName();
   setProjects();
   createProjectDialog();
