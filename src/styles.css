@@ -136,7 +136,6 @@ main {
 .project-creation-dialog,
 .name-dialog {
   background-color: #2d2d2d;
-  border: none;
   color: #cdcdcd;
   border-radius: 5px;
   top: 50%;
@@ -165,6 +164,7 @@ main {
   gap: 10px;
 }
 
+.date-main-add-task,
 .colors-select,
 .project-input,
 .name-input {
@@ -193,6 +193,7 @@ main {
   color: #013491;
   cursor: pointer;
 }
+.main-add-task-button-cross,
 .cancel-project-button {
   background-color: #ff8c8c;
   color: #910101;
@@ -203,10 +204,12 @@ main {
   background-color: #73a4fe;
 }
 
+.main-add-task-button-cross:hover,
 .cancel-project-button:hover {
   background-color: #fe7373;
 }
 
+.main-add-task-button-send:disabled,
 .done-project-button:disabled,
 .name-submit:disabled {
   border: 1px solid #999999;
@@ -303,6 +306,8 @@ main {
   padding: 7px;
 }
 
+.main-add-task.not-display,
+.main-add-task-form.not-display,
 .myprojects-element.not-display {
   display: none;
 }
@@ -378,4 +383,72 @@ main {
 
 .main-add-task:hover {
   color: #8cb4ff;
+}
+
+.main-add-task-form {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  gap: 10px;
+  background-color: #252525;
+  color: #cdcdcd;
+  border-radius: 10px;
+  /* box-shadow: 3px 3px 15px black; */
+  border: 1px solid #a4a4a485;
+}
+
+.title-input {
+  font-weight: bold;
+  color: white;
+}
+
+.description-input {
+  font-size: 0.8rem;
+  color: #cdcdcd;
+}
+
+.title-input,
+.description-input {
+  background-color: #252525;
+  border: none;
+  outline: none;
+}
+
+.select-main-add-task {
+  font-family: "FontAwesome", "Inter";
+  width: 85px;
+  background-color: #2d2d2d;
+  border: 1px solid #a4a4a4;
+  border-radius: 5px;
+  color: #cdcdcd;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.date-main-add-task {
+  font-size: 0.8rem;
+  width: 150px;
+  cursor: pointer;
+}
+
+.main-add-task-selectable {
+  display: flex;
+  gap: 5px;
+}
+
+.main-add-task-button-cross,
+.main-add-task-button-send {
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+
+.main-add-task-button-send {
+  background-color: #a3ff8c;
+  color: green;
 }
