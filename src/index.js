@@ -2,39 +2,91 @@ import "./styles.css";
 import { User } from "./User";
 import { DataManager } from "./DataManager";
 import { PageTodayController } from "./images/PageTodayController";
-import { createDisablerButton, createCounterInput } from "./domUtils";
+import {
+  createDisablerButton,
+  createCounterInput,
+  setButtonActive,
+} from "./domUtils";
 
 function ScreenController() {
-  const projectColors = [
-    "🔴 Red",
-    "🔵 Blue",
-    "🟡 Yellow",
-    "🟠 Orange",
-    "🟣 Purple",
-  ];
-  const user = localStorage.getItem("userNameEasyTasks")
-    ? JSON.parse(localStorage.getItem("userNameEasyTasks"))
+  const user = localStorage.getItem("DataManagerEasyTasks")
+    ? JSON.parse(localStorage.getItem("DataManagerEasyTasks")).user
     : new User("User");
+  const myProjects = localStorage.getItem("DataManagerEasyTasks")
+    ? JSON.parse(localStorage.getItem("DataManagerEasyTasks")).projects
+    : [];
 
-  const myTasks = localStorage.getItem("tasksEasyTasks")
-    ? JSON.parse(localStorage.getItem("tasksEasyTasks"))
-    : [];
-  const myProjects = localStorage.getItem("projectsEasyTasks")
-    ? JSON.parse(localStorage.getItem("projectsEasyTasks"))
-    : [];
-  const data = new DataManager(myProjects, myTasks, user);
+  const data = new DataManager(myProjects, user);
 
   const createLateralMenuAlternating = () => {
     const arrowLeftButton = document.querySelector(".arrow-left-button");
     const toggleLateralMenu = () => {
       document.querySelector(".lateral-menu").classList.toggle("closed");
       document.querySelector(".arrow-left-button").classList.toggle("rotate");
+      document.querySelector(".breadcrumb").classList.toggle("closed");
     };
     arrowLeftButton.addEventListener("click", toggleLateralMenu);
   };
 
+  const setUserName = () => {
+    const userName = document.querySelector(".user-name");
+    userName.textContent = data.user.name;
+  };
+
+  const showProjectElements = () => {
+    data.projects.forEach((project) => {
+      showProjectElement(project.name, project.color);
+    });
+  };
+  const showProjectElement = (projectName, projectColor) => {
+    const myProjectsMenu = document.querySelector(".myprojects-menu");
+    const projectLi = document.createElement("li");
+
+    const projectLabel = document.createElement("button");
+    projectLabel.textContent = projectName;
+    projectLabel.classList = `myprojects-element ${projectName.replace(
+      " ",
+      ""
+    )}`;
+
+    const projectSpan = document.createElement("span");
+    projectSpan.classList = `color ${projectColor}`;
+
+    projectLabel.prepend(projectSpan);
+
+    projectLi.appendChild(projectLabel);
+    myProjectsMenu.appendChild(projectLi);
+
+    projectLi.addEventListener("click", () => {
+      setButtonActive(`.${projectName.replace(" ", "")}`);
+      PageProject;
+    });
+  };
+
+  const createNewProject = () => {
+    const projectCreationDialog = document.querySelector(
+      ".project-creation-dialog"
+    );
+    const projectCreationForm = document.querySelector(
+      ".project-creation-form"
+    );
+    const createProject = (event) => {
+      event.preventDefault();
+      const projectInput = document.querySelector(".project-input");
+      const colorsSelect = document.querySelector(".colors-select");
+
+      data.addProject(projectInput.value, colorsSelect.value);
+      showProjectElement(projectInput.value, colorsSelect.value);
+
+      projectInput.value = "";
+
+      projectCreationDialog.close();
+    };
+    projectCreationForm.addEventListener("submit", createProject);
+  };
+
   const displayUserNameDialog = () => {
-    if (!localStorage.getItem("userNameEasyTasks")) {
+    if (!localStorage.getItem("DataManagerEasyTasks")) {
       const nameDialog = document.querySelector(".name-dialog");
       const nameForm = document.querySelector(".name-form");
       const nameInput = document.querySelector(".name-input");
@@ -43,81 +95,14 @@ function ScreenController() {
         event.preventDefault();
         data.addUser(nameInput.value);
         setUserName();
+        showProjectElement("My Tasks", "red");
         nameDialog.close();
       };
 
       nameForm.addEventListener("submit", updateUserName);
-
       createDisablerButton(".name-submit", ".name-input");
       nameDialog.showModal();
     }
-  };
-
-  const setUserName = () => {
-    const userName = document.querySelector(".user-name");
-    userName.textContent = data.user.name;
-  };
-
-  const setProjects = () => {
-    const showProjectElements = () => {
-      data.projects.forEach((project) => {
-        showProjectElement(project.name, project.color);
-      });
-    };
-    const showProjectElement = (projectName, projectColor) => {
-      const myProjectsMenu = document.querySelector(".myprojects-menu");
-      const projectLi = document.createElement("li");
-      projectLi.classList = "myprojects-element";
-
-      const projectLabel = document.createElement("label");
-      projectLabel.textContent = projectName;
-      projectLabel.classList = "myprojects-label";
-
-      const projectSpan = document.createElement("span");
-      projectSpan.classList = projectColor;
-
-      const projectInput = document.createElement("input");
-      projectInput.type = "checkbox";
-      projectInput.name = `${projectName.replace(" ", "")}`;
-      projectInput.id = `${projectName.replace(" ", "")}`;
-
-      projectLabel.prepend(projectSpan);
-      projectLabel.prepend(projectInput);
-
-      projectLi.appendChild(projectLabel);
-      myProjectsMenu.appendChild(projectLi);
-    };
-
-    const createNewProject = () => {
-      const projectCreationDialog = document.querySelector(
-        ".project-creation-dialog"
-      );
-      const projectCreationForm = document.querySelector(
-        ".project-creation-form"
-      );
-      const createProject = (event) => {
-        event.preventDefault();
-        const projectInput = document.querySelector(".project-input");
-        const colorsSelect = document.querySelector(".colors-select");
-
-        data.addProject(
-          projectInput.value,
-          colorsSelect.value.replace(/[^a-z]/gi, "").toLowerCase()
-        );
-        showProjectElement(
-          projectInput.value,
-          colorsSelect.value.replace(/[^a-z]/gi, "").toLowerCase()
-        );
-
-        projectInput.value = "";
-
-        projectCreationDialog.close();
-      };
-      projectCreationForm.addEventListener("submit", createProject);
-    };
-
-    createNewProject();
-    showProjectElements();
   };
 
   const createProjectDialog = () => {
@@ -154,30 +139,28 @@ function ScreenController() {
       });
     };
 
-    const createSelectColors = () => {
-      const colorsSelect = document.querySelector(".colors-select");
-      projectColors.forEach((color) => {
-        const option = document.createElement("option");
-        option.textContent = `${color}`;
-        option.value = color;
-        colorsSelect.appendChild(option);
-      });
-    };
-
     closeCreateProjectDialog();
     createCounterInput(".project-input", ".project-input-count", 20);
     createDisablerButton(".done-project-button", ".project-input");
-
     displayCreateProjectDialog();
     createArrowDisplayProjects();
-    createSelectColors();
   };
 
-  setUserName();
-  setProjects();
-  createProjectDialog();
+  const addListenerTodayButton = () => {
+    const todayButton = document.querySelector(".today-button");
+    todayButton.addEventListener("click", () => {
+      setButtonActive(".today-button");
+    });
+  };
+
+  createNewProject();
+  showProjectElements();
   displayUserNameDialog();
+  setUserName();
+  createProjectDialog();
   createLateralMenuAlternating();
+  addListenerTodayButton();
+
   const todayPage = PageTodayController(data);
   todayPage.init();
 }

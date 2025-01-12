@@ -1,17 +1,15 @@
-import { createDisablerButton } from "../domUtils";
+import { createDisablerButton, setButtonActive } from "../domUtils";
+import { Task } from "../Task";
+
 export function PageTodayController(data) {
-  const setTodayButtonActive = () => {
-    const todayButton = document.querySelector(".today-button");
-    todayButton.classList.toggle("active");
-    createDisablerButton(".main-add-task-button-send", ".title-input");
-  };
   const setTodayDate = () => {
     const todayDate = document.querySelector(".today-date");
     todayDate.textContent = data.getToday();
   };
+
   const setNumberOfTasksToday = () => {
     const numberTask = document.querySelector(".number-task");
-    numberTask.textContent = `${data.getTodayTask().length} ${
+    numberTask.textContent = `${data.getTodayTask()} ${
       data.getTodayTask().length > 1 ? "tasks" : "task"
     }`;
   };
@@ -35,36 +33,59 @@ export function PageTodayController(data) {
     addTaskCrossButton.addEventListener("click", displayFormTaskMain);
   };
 
+  const createTasksElements = () => {
+    data.projects.forEach((p) => p.tasks.forEach((t) => createTaskElement(t)));
+  };
+
+  const createTaskElement = (task) => {
+    const mainTasks = document.querySelector(".main-tasks");
+    const taskDiv = document.createElement("div");
+    taskDiv.classList = "task";
+    taskDiv.textContent = task.title;
+    mainTasks.appendChild(taskDiv);
+    setNumberOfTasksToday();
+    clickOnTaskElement(task, taskDiv);
+  };
+
   const submitAddTaskForm = () => {
     const addTaskForm = document.querySelector(".main-add-task-form");
     const titleInput = document.querySelector(".title-input");
     const descriptionInput = document.querySelector(".description-input");
     const mainAddTaskSelect = document.querySelector(".select-main-add-task");
-    const mainAddTaskDate = document.querySelector(".date-main-add-task");
 
     addTaskForm.addEventListener("submit", (event) => {
       event.preventDefault();
-
-      data.addTask(
+      const newTask = new Task(
         titleInput.value,
         descriptionInput.value,
+        data.getToday(),
         mainAddTaskSelect.value,
-        mainAddTaskDate.value,
-        "",
-        "My Tasks"
+        ""
       );
+      data.addTask(newTask, "My Tasks");
+      createTaskElement(newTask);
       titleInput.value = "";
       descriptionInput.value = "";
       mainAddTaskSelect.value = "";
-      mainAddTaskDate.value = "";
       displayFormTaskMain();
+    });
+  };
+
+  const clickOnTaskElement = (task, taskDiv) => {
+    taskDiv.addEventListener("click", () => {
+      const tasksDialog = document.querySelector(".task-dialog");
+      const taskTitle = document.querySelector(".task-title");
+      taskTitle.textContent = task.title;
+      tasksDialog.showModal();
     });
   };
 
   const init = () => {
     setTodayDate();
-    setTodayButtonActive();
+    setButtonActive(".today-button");
+    createDisablerButton(".main-add-task-button-send", ".title-input");
     setNumberOfTasksToday();
+    createTasksElements();
     clickOnAddTaskInPage();
     clickOnCrossButton();
     submitAddTaskForm();

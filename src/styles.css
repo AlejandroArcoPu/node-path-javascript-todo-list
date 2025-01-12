@@ -88,8 +88,8 @@ ul {
 
 .calendar-button:hover,
 .today-button:hover,
-.myprojects-label:hover,
-.myprojects-menu button:hover,
+.myprojects-element:hover,
+.myprojects-icons button:hover,
 .arrow-left-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -133,6 +133,7 @@ main {
   padding: 60px 50px;
 }
 
+.task-dialog,
 .project-creation-dialog,
 .name-dialog {
   background-color: #2d2d2d;
@@ -147,6 +148,7 @@ main {
   max-width: 380px;
 }
 
+.task-dialog::backdrop,
 .project-creation-dialog::backdrop,
 .name-dialog::backdrop {
   background-color: rgb(0 0 0 / 40%);
@@ -243,41 +245,51 @@ main {
   justify-content: center;
 }
 
-.myprojects-label {
+/* .myprojects-label {
+  border: none;
   display: flex;
+  width: 100%;
   align-items: center;
   gap: 8px;
   border-radius: 5px;
   padding: 8px 10px;
   cursor: pointer;
-}
+  background-color: #3a3a3a;
+  color: #cdcdcd;
+  text-align: left;
+} */
 
-.myprojects-label span {
-  height: 15px;
-  width: 15px;
+.color {
+  height: 12px;
+  width: 12px;
   border-radius: 5px;
+  margin-right: 8px;
   display: inline-block;
-  position: relative;
 }
 
 .red {
-  border: 2px solid #fb6b6b;
+  border: 3px solid darkred;
+  background-color: #fb6b6b;
 }
 
 .blue {
-  border: 2px solid #5858fd;
+  border: 3px solid darkblue;
+  background-color: #5858fd;
 }
 
 .orange {
-  border: 2px solid #fdc058;
+  border: 3px solid orange;
+  background-color: #fdc058;
 }
 
 .purple {
-  border: 2px solid #be58fd;
+  border: 3px solid purple;
+  background-color: #be58fd;
 }
 
 .yellow {
-  border: 2px solid #f2fd58;
+  border: 3px solid yellow;
+  background-color: #f2fd58;
 }
 
 .span-color {
@@ -292,11 +304,7 @@ main {
   left: 1px;
 }
 
-.myprojects-label input {
-  display: none;
-}
-
-.myprojects-menu button {
+.myprojects-icons button {
   border: none;
   width: 33px;
   background-color: #3a3a3a;
@@ -346,6 +354,7 @@ main {
   font-weight: bold;
 }
 
+.myprojects-element,
 .calendar-button,
 .today-button {
   width: 100%;
@@ -418,6 +427,7 @@ main {
 .select-main-add-task {
   font-family: "FontAwesome", "Inter";
   width: 85px;
+  height: 30px;
   background-color: #2d2d2d;
   border: 1px solid #a4a4a4;
   border-radius: 5px;
@@ -427,16 +437,17 @@ main {
   font-size: 0.8rem;
 }
 
-.date-main-add-task {
+/* .date-main-add-task {
   font-size: 0.8rem;
   width: 150px;
   cursor: pointer;
-}
+} */
 
-.main-add-task-selectable {
+/* .main-add-task-selectable {
   display: flex;
+  height: 30px;
   gap: 5px;
-}
+} */
 
 .main-add-task-button-cross,
 .main-add-task-button-send {
@@ -451,4 +462,58 @@ main {
 .main-add-task-button-send {
   background-color: #a3ff8c;
   color: green;
+}
+
+.task {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  height: 70px;
+  border: 1px solid #a4a4a485;
+  border-radius: 5px;
+  background-color: #333333;
+  box-shadow: 2px 2px 5px black;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.task:hover {
+  border: 1px solid white;
+  box-shadow: 3px 3px 15px black;
+}
+
+.main-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.task-header {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.today {
+  display: none;
+}
+
+.breadcrumb {
+  font-size: 0.8rem;
+  position: absolute;
+  margin-left: -20px;
+  top: 23px;
+  transition: all 1s;
+}
+
+.breadcrumb.closed {
+  margin-left: 10px;
 }

@@ -42,11 +42,7 @@
         <li>
           <button class="today-button">
             <img src="./images/day.svg" alt="Today Icon" />Today
-          </button>
-        </li>
-        <li>
-          <button class="calendar-button">
-            <img src="./images/calendar.svg" alt="Calendar Icon" />Calendar
+            <div class="today-button-counter"></div>
           </button>
         </li>
       </ul>
@@ -70,6 +66,7 @@
         <p class="today-date"></p>
         <p class="number-task"></p>
       </div>
+      <div class="main-tasks"></div>
       <button class="main-add-task">
         <img src="./images/add-without-border.svg" alt="" />Add a task
       </button>
@@ -82,25 +79,18 @@
             class="description-input"
           />
         </div>
-        <div class="main-add-task-selectable">
-          <select
-            class="select-main-add-task"
-            required
-            name="priority"
-            id="priority"
-          >
-            <option value="" disabled selected>&#xf024; Priority</option>
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
-          <input
-            placeholder="Choose a date"
-            class="date-main-add-task"
-            type="date"
-            required
-          />
-        </div>
+        <select
+          class="select-main-add-task"
+          required
+          name="priority"
+          id="priority"
+        >
+          <option value="" disabled selected>&#xf024; Priority</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+
         <div class="main-add-task-buttons">
           <button type="button" class="main-add-task-button-cross">
             <img src="./images/mark.svg" alt="" />
@@ -120,6 +110,10 @@
           </button>
         </div>
       </form>
+    </main>
+    <main class="projects">
+      <p class="breadcrumb">Projects /</p>
+      <h1 class="project-name"></h1>
     </main>
     <dialog class="name-dialog">
       <form class="name-form" action="">
@@ -158,6 +152,40 @@
         </div>
         <div class="project-creation-form-element">
           <label class="project-creation-label" for="colors">Color</label>
+          <select class="colors-select" name="colors" id="colors">
+            <option value="red">🔴 Red</option>
+            <option value="blue">🔵 Blue</option>
+            <option value="yellow">🟡 Yellow</option>
+            <option value="orange">🟠 Orange</option>
+            <option value="purple">🟣 Purple</option>
+          </select>
+        </div>
+        <div class="project-creation-buttons">
+          <button class="cancel-project-button">Cancel</button
+          ><button type="submit" class="done-project-button" disabled>
+            Done
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog>
+      <form class="project-creation-form" action="">
+        <p class="project-creation-title">Create project</p>
+        <div class="separator"></div>
+        <div class="project-creation-form-element">
+          <label class="project-creation-label" for="project">Name</label>
+          <input
+            class="project-input"
+            type="text"
+            id="project"
+            for="project"
+            placeholder="Enter name"
+            maxlength="20"
+          />
+          <div class="project-input-count">0/20</div>
+        </div>
+        <div class="project-creation-form-element">
+          <label class="project-creation-label" for="colors">Color</label>
           <select class="colors-select" name="colors" id="colors"></select>
         </div>
         <div class="project-creation-buttons">
@@ -167,6 +195,27 @@
           </button>
         </div>
       </form>
+    </dialog>
+    <dialog class="task-dialog">
+      <div class="task-div">
+        <header class="task-header">
+          <button class="task-dialog-mark">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20"
+              width="20"
+              viewBox="0 0 384 512"
+            >
+              <path
+                fill="currentColor"
+                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+              />
+            </svg>
+          </button>
+        </header>
+        <div class="separator"></div>
+        <p class="task-title"></p>
+      </div>
     </dialog>
   </body>
 </html>

@@ -3,47 +3,70 @@ import { Task } from "./Task";
 import { User } from "./User";
 
 export class DataManager {
-  constructor(projects, tasks, user) {
+  constructor(projects, user) {
     this.projects = projects;
-    this.tasks = tasks;
     this.user = user;
   }
 
   addProject(project, color) {
     if (!this.projects.find((p) => p.name === project)) {
-      const newProject = new Project(project, color);
+      const newProject = new Project(project, color, []);
       this.projects.push(newProject);
-      localStorage.setItem("projectsEasyTasks", JSON.stringify(this.projects));
+      const newDataManager = new DataManager(this.projects, this.user);
+      localStorage.setItem(
+        "DataManagerEasyTasks",
+        JSON.stringify(newDataManager)
+      );
     }
   }
 
+  // addProject(project, color) {
+  //   const newProject = new Project(project, color, []);
+  //   this.projects.push(newProject);
+  //   const newDataManager = new DataManager(this.projects, this.user);
+  //   localStorage.setItem(
+  //     "DataManagerEasyTasks",
+  //     JSON.stringify(newDataManager)
+  //   );
+  // }
+
   addUser(user) {
     this.user = new User(user);
-    localStorage.setItem("userNameEasyTasks", JSON.stringify(this.user));
-  }
-
-  removeProject(project) {
-    this.projects = this.projects.filter((p) => project.name !== p.name);
-    localStorage.setItem("projectsEasyTasks", JSON.stringify(this.projects));
-  }
-
-  addTask(title, description, priority, date, status, project) {
-    const newTask = new Task(
-      title,
-      description,
-      date,
-      priority,
-      status,
-      project
+    this.projects = [new Project("My Tasks", "red", [])];
+    const newDataManager = new DataManager(this.projects, this.user);
+    localStorage.setItem(
+      "DataManagerEasyTasks",
+      JSON.stringify(newDataManager)
     );
-    this.tasks.push(newTask);
-    localStorage.setItem("tasksEasyTasks", JSON.stringify(this.tasks));
   }
 
-  removeTask(task) {
-    this.tasks = this.tasks.filter((t) => task.name !== t.name);
-    localStorage.setItem("tasksEasyTasks", JSON.stringify(this.tasks));
+  // removeProject(project) {
+  //   this.projects = this.projects.filter((p) => project.name !== p.name);
+  //   localStorage.setItem("projectsEasyTasks", JSON.stringify(this.projects));
+  // }
+
+  // addTask(newTask) {
+  //   this.tasks.push(newTask);
+  //   localStorage.setItem("tasksEasyTasks", JSON.stringify(this.tasks));
+  // }
+
+  addTask(newTask, project) {
+    const projectToModify = this.projects.find((p) => p.name === project);
+    projectToModify.tasks.push(newTask);
+    this.projects = this.projects.map((p) =>
+      p.name === project ? projectToModify : p
+    );
+    const newDataManager = new DataManager(this.projects, this.user);
+    localStorage.setItem(
+      "DataManagerEasyTasks",
+      JSON.stringify(newDataManager)
+    );
   }
+
+  // removeTask(task) {
+  //   this.tasks = this.tasks.filter((t) => task.name !== t.name);
+  //   localStorage.setItem("tasksEasyTasks", JSON.stringify(this.tasks));
+  // }
 
   getToday() {
     const today = new Date();
@@ -57,16 +80,13 @@ export class DataManager {
   }
 
   getTodayTask() {
+    let count = 0;
     const today = this.getToday();
-    const options = {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    };
-    const todayTasks = this.tasks.filter(
-      (t) => new Date(t.date).toLocaleDateString("en-GB", options) === today
-    );
-    return todayTasks;
+    this.projects.forEach((pr) => {
+      pr.tasks.forEach((t) => {
+        t.date === today ? count++ : count;
+      });
+    });
+    return count;
   }
 }
