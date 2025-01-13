@@ -68,6 +68,17 @@ export class DataManager {
   //   localStorage.setItem("tasksEasyTasks", JSON.stringify(this.tasks));
   // }
 
+  getFormattedDate(date) {
+    const dateToFormat = new Date(date);
+    const options = {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+    return dateToFormat.toLocaleDateString("en-GB", options);
+  }
+
   getToday() {
     const today = new Date();
     const options = {
@@ -87,6 +98,14 @@ export class DataManager {
         t.date === today ? count++ : count;
       });
     });
+    return count;
+  }
+
+  getProjectTasks(project) {
+    let count = 0;
+    this.projects
+      .find((pr) => pr.name === project)
+      .tasks.forEach((t) => count++);
     return count;
   }
 }

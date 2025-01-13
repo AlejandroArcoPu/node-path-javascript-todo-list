@@ -166,7 +166,6 @@ main {
   gap: 10px;
 }
 
-.date-main-add-task,
 .colors-select,
 .project-input,
 .name-input {
@@ -314,6 +313,11 @@ main {
   padding: 7px;
 }
 
+.main-tasks-project.not-display,
+.main-tasks-today.not-display,
+.date-main-add-task.not-display,
+.today-date.not-display,
+.breadcrumb.not-display,
 .main-add-task.not-display,
 .main-add-task-form.not-display,
 .myprojects-element.not-display {
@@ -424,6 +428,7 @@ main {
   outline: none;
 }
 
+.date-main-add-task,
 .select-main-add-task {
   font-family: "FontAwesome", "Inter";
   width: 85px;
@@ -435,6 +440,10 @@ main {
   outline: none;
   cursor: pointer;
   font-size: 0.8rem;
+}
+
+.date-main-add-task {
+  width: 150px;
 }
 
 /* .date-main-add-task {
@@ -484,7 +493,7 @@ main {
   box-shadow: 3px 3px 15px black;
 }
 
-.main-tasks {
+.main-tasks-today {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -500,10 +509,6 @@ main {
   display: flex;
   align-items: center;
   justify-content: end;
-}
-
-.today {
-  display: none;
 }
 
 .breadcrumb {

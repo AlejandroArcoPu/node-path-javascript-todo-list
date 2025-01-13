@@ -1,7 +1,7 @@
 import "./styles.css";
 import { User } from "./User";
 import { DataManager } from "./DataManager";
-import { PageTodayController } from "./images/PageTodayController";
+import { PageTodayController } from "./PageTodayController";
 import {
   createDisablerButton,
   createCounterInput,
@@ -59,7 +59,23 @@ function ScreenController() {
 
     projectLi.addEventListener("click", () => {
       setButtonActive(`.${projectName.replace(" ", "")}`);
-      PageProject;
+      const breadCrumbProject = document.querySelector(".breadcrumb");
+      breadCrumbProject.classList.remove("not-display");
+      const pageTitle = document.querySelector(".page-title");
+      pageTitle.textContent = projectName;
+      const todayDate = document.querySelector(".today-date");
+      todayDate.classList.add("not-display");
+      const dateSelect = document.querySelector(".date-main-add-task");
+      dateSelect.classList.remove("not-display");
+      const numberTasks = document.querySelector(".number-task");
+      numberTasks.textContent = `${data.getProjectTasks(projectName)} ${
+        data.getTodayTask().length > 1 ? "tasks" : "task"
+      }`;
+      const mainTaskProjectDiv = document.querySelector(".main-tasks-project");
+      mainTaskProjectDiv.classList.remove("not-display");
+
+      const mainTaskTodayDiv = document.querySelector(".main-tasks-today");
+      mainTaskTodayDiv.classList.add("not-display");
     });
   };
 
@@ -150,6 +166,20 @@ function ScreenController() {
     const todayButton = document.querySelector(".today-button");
     todayButton.addEventListener("click", () => {
       setButtonActive(".today-button");
+      const breadCrumbProject = document.querySelector(".breadcrumb");
+      breadCrumbProject.classList.add("not-display");
+      const pageTitle = document.querySelector(".page-title");
+      pageTitle.textContent = "Today";
+      const todayDate = document.querySelector(".today-date");
+      todayDate.classList.remove("not-display");
+      const dateSelect = document.querySelector(".date-main-add-task");
+      dateSelect.classList.add("not-display");
+      const mainTaskProjectDiv = document.querySelector(".main-tasks-project");
+      mainTaskProjectDiv.classList.add("not-display");
+      const mainTaskTodayDiv = document.querySelector(".main-tasks-today");
+      mainTaskTodayDiv.classList.remove("not-display");
+
+      todayPage.setNumberOfTasksToday();
     });
   };
 

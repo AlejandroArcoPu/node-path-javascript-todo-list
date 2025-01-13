@@ -60,13 +60,15 @@
         </li>
       </ul>
     </nav>
-    <main class="today">
-      <h1>Today</h1>
+    <main class="content">
+      <p class="breadcrumb not-display">Projects /</p>
+      <h1 class="page-title">Today</h1>
       <div class="subtitle-main-add-task">
         <p class="today-date"></p>
         <p class="number-task"></p>
       </div>
-      <div class="main-tasks"></div>
+      <div class="main-tasks-today"></div>
+      <div class="main-tasks-project"></div>
       <button class="main-add-task">
         <img src="./images/add-without-border.svg" alt="" />Add a task
       </button>
@@ -90,7 +92,7 @@
           <option value="medium">Medium</option>
           <option value="low">Low</option>
         </select>
-
+        <input type="date" class="date-main-add-task not-display" required />
         <div class="main-add-task-buttons">
           <button type="button" class="main-add-task-button-cross">
             <img src="./images/mark.svg" alt="" />
@@ -110,10 +112,6 @@
           </button>
         </div>
       </form>
-    </main>
-    <main class="projects">
-      <p class="breadcrumb">Projects /</p>
-      <h1 class="project-name"></h1>
     </main>
     <dialog class="name-dialog">
       <form class="name-form" action="">
