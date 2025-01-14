@@ -493,6 +493,7 @@ main {
   box-shadow: 3px 3px 15px black;
 }
 
+.main-tasks-project,
 .main-tasks-today {
   display: flex;
   flex-direction: column;

@@ -1,6 +1,6 @@
 import { Project } from "./Project";
 import { Task } from "./Task";
-import { User } from "./User";
+import { User } from "../User";
 
 export class DataManager {
   constructor(projects, user) {

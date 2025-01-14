@@ -1,37 +1,31 @@
 import "./styles.css";
 import { User } from "./User";
-import { DataManager } from "./DataManager";
+import { DataManager } from "./objects/DataManager";
 import { PageTodayController } from "./PageTodayController";
+import { ProjectController } from "./ProjectPageController";
+import { indexUtils } from "./utils/indexUtils";
 import {
   createDisablerButton,
   createCounterInput,
   setButtonActive,
-} from "./domUtils";
+} from "./utils/domUtils";
+import { user } from "./components/user";
 
 function ScreenController() {
-  const user = localStorage.getItem("DataManagerEasyTasks")
+  const userStorage = localStorage.getItem("DataManagerEasyTasks")
     ? JSON.parse(localStorage.getItem("DataManagerEasyTasks")).user
     : new User("User");
   const myProjects = localStorage.getItem("DataManagerEasyTasks")
     ? JSON.parse(localStorage.getItem("DataManagerEasyTasks")).projects
     : [];
 
-  const data = new DataManager(myProjects, user);
+  const data = new DataManager(myProjects, userStorage);
+  const project = ProjectController(data);
+  const indexUtil = indexUtils();
+  indexUtil.init();
 
-  const createLateralMenuAlternating = () => {
-    const arrowLeftButton = document.querySelector(".arrow-left-button");
-    const toggleLateralMenu = () => {
-      document.querySelector(".lateral-menu").classList.toggle("closed");
-      document.querySelector(".arrow-left-button").classList.toggle("rotate");
-      document.querySelector(".breadcrumb").classList.toggle("closed");
-    };
-    arrowLeftButton.addEventListener("click", toggleLateralMenu);
-  };
-
-  const setUserName = () => {
-    const userName = document.querySelector(".user-name");
-    userName.textContent = data.user.name;
-  };
+  const userComponent = user(data);
+  userComponent.init();
 
   const showProjectElements = () => {
     data.projects.forEach((project) => {
@@ -67,6 +61,7 @@ function ScreenController() {
       todayDate.classList.add("not-display");
       const dateSelect = document.querySelector(".date-main-add-task");
       dateSelect.classList.remove("not-display");
+      dateSelect.required = true;
       const numberTasks = document.querySelector(".number-task");
       numberTasks.textContent = `${data.getProjectTasks(projectName)} ${
         data.getTodayTask().length > 1 ? "tasks" : "task"
@@ -76,6 +71,7 @@ function ScreenController() {
 
       const mainTaskTodayDiv = document.querySelector(".main-tasks-today");
       mainTaskTodayDiv.classList.add("not-display");
+      project.createTasksElements(projectName);
     });
   };
 
@@ -99,26 +95,6 @@ function ScreenController() {
       projectCreationDialog.close();
     };
     projectCreationForm.addEventListener("submit", createProject);
-  };
-
-  const displayUserNameDialog = () => {
-    if (!localStorage.getItem("DataManagerEasyTasks")) {
-      const nameDialog = document.querySelector(".name-dialog");
-      const nameForm = document.querySelector(".name-form");
-      const nameInput = document.querySelector(".name-input");
-
-      const updateUserName = (event) => {
-        event.preventDefault();
-        data.addUser(nameInput.value);
-        setUserName();
-        showProjectElement("My Tasks", "red");
-        nameDialog.close();
-      };
-
-      nameForm.addEventListener("submit", updateUserName);
-      createDisablerButton(".name-submit", ".name-input");
-      nameDialog.showModal();
-    }
   };
 
   const createProjectDialog = () => {
@@ -174,6 +150,7 @@ function ScreenController() {
       todayDate.classList.remove("not-display");
       const dateSelect = document.querySelector(".date-main-add-task");
       dateSelect.classList.add("not-display");
+      dateSelect.required = false;
       const mainTaskProjectDiv = document.querySelector(".main-tasks-project");
       mainTaskProjectDiv.classList.add("not-display");
       const mainTaskTodayDiv = document.querySelector(".main-tasks-today");
@@ -185,10 +162,7 @@ function ScreenController() {
 
   createNewProject();
   showProjectElements();
-  displayUserNameDialog();
-  setUserName();
   createProjectDialog();
-  createLateralMenuAlternating();
   addListenerTodayButton();
 
   const todayPage = PageTodayController(data);

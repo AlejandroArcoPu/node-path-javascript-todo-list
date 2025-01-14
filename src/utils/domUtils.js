@@ -30,3 +30,8 @@ export const createCounterInput = (inputClass, showClass, limit) => {
     text.textContent = `${event.target.value.length}/${limit}`;
   });
 };
+
+export const cleanForm = (formClass) => {
+  const mainAddTaskForm = document.querySelector(formClass);
+  mainAddTaskForm.reset();
+};

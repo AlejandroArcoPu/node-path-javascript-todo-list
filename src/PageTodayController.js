@@ -1,21 +1,13 @@
-import { createDisablerButton, setButtonActive } from "./domUtils";
-import { Task } from "./Task";
-import { ProjectController } from "./ProjectController";
+import {
+  createDisablerButton,
+  setButtonActive,
+  cleanForm,
+} from "./utils/domUtils";
+import { Task } from "./objects/Task";
+import { ProjectController } from "./ProjectPageController";
 
 export function PageTodayController(data) {
   const project = ProjectController(data);
-
-  const cleanAddTaskForm = () => {
-    const titleInput = document.querySelector(".title-input");
-    const descriptionInput = document.querySelector(".description-input");
-    const prioritySelect = document.querySelector(".select-main-add-task");
-    const dateSelect = document.querySelector(".date-main-add-task");
-
-    titleInput.value = "";
-    descriptionInput.value = "";
-    prioritySelect.value = "";
-    dateSelect.value = "";
-  };
 
   const setTodayDate = () => {
     const todayDate = document.querySelector(".today-date");
@@ -30,7 +22,7 @@ export function PageTodayController(data) {
   };
 
   const displayFormTaskMain = () => {
-    cleanAddTaskForm();
+    cleanForm(".main-add-task-form");
     document.querySelector(".main-add-task").classList.toggle("not-display");
     document
       .querySelector(".main-add-task-form")
@@ -49,19 +41,18 @@ export function PageTodayController(data) {
     addTaskCrossButton.addEventListener("click", displayFormTaskMain);
   };
 
-  const createTodayTasksElements = () => {
+  const createTasksElementsInTodayPage = () => {
     data.projects.forEach((p) =>
       p.tasks.forEach((t) => {
         if (t.date === data.getToday()) {
-          console.log("aqui");
-          createTaskElement(t, ".main-tasks-today");
+          createTaskElement(t);
         }
       })
     );
   };
 
-  const createTaskElement = (task, place) => {
-    const mainTasks = document.querySelector(place);
+  const createTaskElement = (task) => {
+    const mainTasks = document.querySelector(".main-tasks-today");
     const taskDiv = document.createElement("div");
     taskDiv.classList = "task";
     taskDiv.textContent = task.title;
@@ -89,7 +80,7 @@ export function PageTodayController(data) {
         );
         data.addTask(newTask, "My Tasks");
         setNumberOfTasksToday();
-        createTaskElement(newTask, ".main-tasks-today");
+        createTaskElement(newTask);
       } else {
         const newTask = new Task(
           titleInput.value,
@@ -100,7 +91,7 @@ export function PageTodayController(data) {
         );
         data.addTask(newTask, typeOfForm);
         project.setNumberOfProjectTasks(typeOfForm);
-        createTaskElement(newTask, ".main-tasks-project");
+        project.createTaskElement(newTask);
       }
 
       displayFormTaskMain();
@@ -121,7 +112,7 @@ export function PageTodayController(data) {
     setButtonActive(".today-button");
     createDisablerButton(".main-add-task-button-send", ".title-input");
     setNumberOfTasksToday();
-    createTodayTasksElements();
+    createTasksElementsInTodayPage();
     clickOnAddTaskInPage();
     clickOnCrossButton();
     submitAddTaskForm();
