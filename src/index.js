@@ -1,8 +1,6 @@
 import "./styles.css";
 import { User } from "./User";
 import { DataManager } from "./objects/DataManager";
-import { PageTodayController } from "./PageTodayController";
-import { ProjectController } from "./ProjectPageController";
 import { indexUtils } from "./utils/indexUtils";
 import {
   createDisablerButton,
@@ -10,6 +8,9 @@ import {
   setButtonActive,
 } from "./utils/domUtils";
 import { user } from "./components/user";
+import { project } from "./components/project";
+import { task } from "./components/task";
+import { today } from "./components/today";
 
 function ScreenController() {
   const userStorage = localStorage.getItem("DataManagerEasyTasks")
@@ -20,60 +21,65 @@ function ScreenController() {
     : [];
 
   const data = new DataManager(myProjects, userStorage);
-  const project = ProjectController(data);
+  // const project = ProjectController(data);
+  const projectComponent = project(data);
+  projectComponent.init();
   const indexUtil = indexUtils();
   indexUtil.init();
-
   const userComponent = user(data);
   userComponent.init();
+  const todayComponent = today(data);
+  todayComponent.init();
+  const taskComponent = task(data);
+  taskComponent.init("today");
 
-  const showProjectElements = () => {
-    data.projects.forEach((project) => {
-      showProjectElement(project.name, project.color);
-    });
-  };
-  const showProjectElement = (projectName, projectColor) => {
-    const myProjectsMenu = document.querySelector(".myprojects-menu");
-    const projectLi = document.createElement("li");
+  // const showProjectElements = () => {
+  //   data.projects.forEach((project) => {
+  //     showProjectElement(project.name, project.color);
+  //   });
+  // };
+  // const showProjectElement = (projectName, projectColor) => {
+  //   const myProjectsMenu = document.querySelector(".myprojects-menu");
+  //   const projectLi = document.createElement("li");
 
-    const projectLabel = document.createElement("button");
-    projectLabel.textContent = projectName;
-    projectLabel.classList = `myprojects-element ${projectName.replace(
-      " ",
-      ""
-    )}`;
+  //   const projectLabel = document.createElement("button");
+  //   projectLabel.textContent = projectName;
+  //   projectLabel.classList = `myprojects-element ${projectName.replace(
+  //     " ",
+  //     ""
+  //   )}`;
 
-    const projectSpan = document.createElement("span");
-    projectSpan.classList = `color ${projectColor}`;
+  //   const projectSpan = document.createElement("span");
+  //   projectSpan.classList = `color ${projectColor}`;
 
-    projectLabel.prepend(projectSpan);
+  //   projectLabel.prepend(projectSpan);
 
-    projectLi.appendChild(projectLabel);
-    myProjectsMenu.appendChild(projectLi);
+  //   projectLi.appendChild(projectLabel);
+  //   myProjectsMenu.appendChild(projectLi);
 
-    projectLi.addEventListener("click", () => {
-      setButtonActive(`.${projectName.replace(" ", "")}`);
-      const breadCrumbProject = document.querySelector(".breadcrumb");
-      breadCrumbProject.classList.remove("not-display");
-      const pageTitle = document.querySelector(".page-title");
-      pageTitle.textContent = projectName;
-      const todayDate = document.querySelector(".today-date");
-      todayDate.classList.add("not-display");
-      const dateSelect = document.querySelector(".date-main-add-task");
-      dateSelect.classList.remove("not-display");
-      dateSelect.required = true;
-      const numberTasks = document.querySelector(".number-task");
-      numberTasks.textContent = `${data.getProjectTasks(projectName)} ${
-        data.getTodayTask().length > 1 ? "tasks" : "task"
-      }`;
-      const mainTaskProjectDiv = document.querySelector(".main-tasks-project");
-      mainTaskProjectDiv.classList.remove("not-display");
+  //   projectLi.addEventListener("click", () => {
+  //     setButtonActive(`.${projectName.replace(" ", "")}`);
+  //     const breadCrumbProject = document.querySelector(".breadcrumb");
+  //     breadCrumbProject.classList.remove("not-display");
+  //     const pageTitle = document.querySelector(".page-title");
+  //     pageTitle.textContent = projectName;
+  //     const todayDate = document.querySelector(".today-date");
+  //     todayDate.classList.add("not-display");
+  //     const dateSelect = document.querySelector(".date-main-add-task");
+  //     dateSelect.classList.remove("not-display");
+  //     dateSelect.required = true;
+  //     const numberTasks = document.querySelector(".number-task");
+  //     numberTasks.textContent = `${data.getProjectTasks(projectName)} ${
+  //       data.getTodayTask().length > 1 ? "tasks" : "task"
+  //     }`;
+  //     const mainTaskProjectDiv = document.querySelector(".main-tasks-project");
+  //     mainTaskProjectDiv.classList.remove("not-display");
 
-      const mainTaskTodayDiv = document.querySelector(".main-tasks-today");
-      mainTaskTodayDiv.classList.add("not-display");
-      project.createTasksElements(projectName);
-    });
-  };
+  //     const mainTaskTodayDiv = document.querySelector(".main-tasks-today");
+  //     mainTaskTodayDiv.classList.add("not-display");
+  //     project.createTasksElements(projectName);
+  //   });
+  // };
 
   const createNewProject = () => {
     const projectCreationDialog = document.querySelector(
@@ -98,26 +104,6 @@ function ScreenController() {
   };
 
   const createProjectDialog = () => {
-    const createArrowDisplayProjects = () => {
-      const arrowDown = document.querySelector(".arrow-down");
-      arrowDown.addEventListener("click", () => {
-        arrowDown.classList.toggle("not-display");
-        document
-          .querySelectorAll(".myprojects-element")
-          .forEach((element) => element.classList.toggle("not-display"));
-      });
-    };
-
-    const displayCreateProjectDialog = () => {
-      const addProjectButton = document.querySelector(".add-project-icon");
-      const projectCreationDialog = document.querySelector(
-        ".project-creation-dialog"
-      );
-      addProjectButton.addEventListener("click", () => {
-        projectCreationDialog.showModal();
-      });
-    };
-
     const closeCreateProjectDialog = () => {
       const cancelProjectButton = document.querySelector(
         ".cancel-project-button"
@@ -134,8 +120,6 @@ function ScreenController() {
     closeCreateProjectDialog();
     createCounterInput(".project-input", ".project-input-count", 20);
     createDisablerButton(".done-project-button", ".project-input");
-    displayCreateProjectDialog();
-    createArrowDisplayProjects();
   };
 
   const addListenerTodayButton = () => {
@@ -155,17 +139,16 @@ function ScreenController() {
       mainTaskProjectDiv.classList.add("not-display");
       const mainTaskTodayDiv = document.querySelector(".main-tasks-today");
       mainTaskTodayDiv.classList.remove("not-display");
-
-      todayPage.setNumberOfTasksToday();
+      taskComponent.init("today");
+      // todayPage.setNumberOfTasksToday();
     });
   };
 
   createNewProject();
-  showProjectElements();
   createProjectDialog();
   addListenerTodayButton();
 
-  const todayPage = PageTodayController(data);
-  todayPage.init();
+  // const todayPage = PageTodayController(data);
+  // todayPage.init();
 }
 ScreenController();

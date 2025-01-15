@@ -1,4 +1,19 @@
-export function project() {
+import { setButtonActive } from "../utils/domUtils";
+import { task } from "./task";
+
+export function project(data) {
+  const taskComponent = task(data);
+
+  const displayCreateProjectDialog = () => {
+    const addProjectButton = document.querySelector(".add-project-icon");
+    const projectCreationDialog = document.querySelector(
+      ".project-creation-dialog"
+    );
+    addProjectButton.addEventListener("click", () => {
+      projectCreationDialog.showModal();
+    });
+  };
+
   const showProjectElements = () => {
     data.projects.forEach((project) => {
       showProjectElement(project.name, project.color);
@@ -42,12 +57,14 @@ export function project() {
 
       const mainTaskTodayDiv = document.querySelector(".main-tasks-today");
       mainTaskTodayDiv.classList.add("not-display");
-      project.createTasksElements(projectName);
+      taskComponent.createTasksElements(projectName);
+      taskComponent.setNumberOfTasks(projectName);
     });
   };
 
   const init = () => {
     showProjectElements();
+    displayCreateProjectDialog();
   };
 
   return { init };
