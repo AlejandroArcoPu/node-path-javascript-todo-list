@@ -1,6 +1,8 @@
 import { createDisablerButton } from "../utils/domUtils";
-
+import { project } from "./project";
 export function user(data) {
+  const projectComponent = project(data);
+
   const setUserName = () => {
     const userName = document.querySelector(".user-name");
     userName.textContent = data.user.name;
@@ -16,7 +18,7 @@ export function user(data) {
         event.preventDefault();
         data.addUser(nameInput.value);
         setUserName();
-        showProjectElement("My Tasks", "red");
+        projectComponent.showProjectElement("My Tasks", "red");
         nameDialog.close();
       };
 

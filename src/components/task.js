@@ -1,4 +1,8 @@
-import { cleanForm } from "../utils/domUtils";
+import {
+  cleanForm,
+  setNumberOfTaskInButton,
+  dynamicallyIncreaseHeightTextArea,
+} from "../utils/domUtils";
 import { Task } from "../objects/Task";
 
 export function task(data) {
@@ -50,9 +54,10 @@ export function task(data) {
     }
   };
 
-  const displayFormTaskMain = (event) => {
-    console.log("aqui", event.target);
+  const displayFormTaskMain = () => {
     cleanForm(".main-add-task-form");
+    dynamicallyIncreaseHeightTextArea(".title-input");
+    dynamicallyIncreaseHeightTextArea(".description-input");
     document.querySelector(".main-add-task").classList.toggle("not-display");
     document
       .querySelector(".main-add-task-form")
@@ -86,6 +91,14 @@ export function task(data) {
         );
         data.addTask(newTask, "My Tasks");
         setNumberOfTasks("today");
+        setNumberOfTaskInButton(
+          ".num-tasks-in-button.today",
+          data.getTodayTask()
+        );
+        setNumberOfTaskInButton(
+          ".num-tasks-in-button.MyTasks",
+          data.getProjectTasks("My Tasks")
+        );
         createTaskElement(newTask, ".main-tasks-today");
       } else {
         const newTask = new Task(
@@ -98,6 +111,10 @@ export function task(data) {
         data.addTask(newTask, typeOfForm);
         setNumberOfTasks(typeOfForm);
         createTaskElement(newTask, ".main-tasks-project");
+        setNumberOfTaskInButton(
+          `.num-tasks-in-button.${typeOfForm.replaceAll(" ", "")}`,
+          data.getProjectTasks(typeOfForm)
+        );
       }
 
       displayFormTaskMain();

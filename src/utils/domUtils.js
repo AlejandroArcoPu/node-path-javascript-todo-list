@@ -10,6 +10,11 @@ export const createDisablerButton = (buttonClass, inputClass) => {
   });
 };
 
+export const setNumberOfTaskInButton = (buttonClass, tasks) => {
+  const todayButtonCounterDiv = document.querySelector(buttonClass);
+  todayButtonCounterDiv.textContent = tasks;
+};
+
 export const setButtonActive = (buttonClass) => {
   removeActiveButton();
   const button = document.querySelector(buttonClass);
@@ -31,7 +36,17 @@ export const createCounterInput = (inputClass, showClass, limit) => {
   });
 };
 
+export const dynamicallyIncreaseHeightTextArea = (classTextArea) => {
+  const textArea = document.querySelector(classTextArea);
+  textArea.addEventListener("input", () => {
+    textArea.style.height = `auto`;
+    textArea.style.height = `${textArea.scrollHeight}px`;
+  });
+};
+
 export const cleanForm = (formClass) => {
   const mainAddTaskForm = document.querySelector(formClass);
+  mainAddTaskForm.elements[0].style.height = "auto";
+  mainAddTaskForm.elements[1].style.height = "auto";
   mainAddTaskForm.reset();
 };

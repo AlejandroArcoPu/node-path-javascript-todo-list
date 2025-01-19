@@ -86,6 +86,7 @@ ul {
   background-color: #252525;
 }
 
+.trash-button:hover,
 .calendar-button:hover,
 .today-button:hover,
 .myprojects-element:hover,
@@ -313,6 +314,8 @@ main {
   padding: 7px;
 }
 
+.num-tasks-in-button.not-display,
+.trash-button.not-display,
 .main-tasks-project.not-display,
 .main-tasks-today.not-display,
 .date-main-add-task.not-display,
@@ -358,6 +361,7 @@ main {
   font-weight: bold;
 }
 
+.trash-button,
 .myprojects-element,
 .calendar-button,
 .today-button {
@@ -370,6 +374,17 @@ main {
   padding: 8px 10px;
   text-align: left;
   cursor: pointer;
+}
+
+.myprojects-element,
+.today-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.num-tasks-in-button {
+  font-weight: 200;
 }
 
 .active {
@@ -426,6 +441,8 @@ main {
   background-color: #252525;
   border: none;
   outline: none;
+  resize: none;
+  overflow: hidden;
 }
 
 .date-main-add-task,
@@ -474,11 +491,14 @@ main {
 }
 
 .task {
+  overflow-wrap: break-word;
+  white-space: normal;
   padding: 15px;
   display: flex;
   flex-direction: column;
   width: 230px;
-  height: 70px;
+  min-height: 70px;
+  height: auto;
   border: 1px solid #a4a4a485;
   border-radius: 5px;
   background-color: #333333;

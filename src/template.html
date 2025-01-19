@@ -41,8 +41,8 @@
       <ul class="middle-menu">
         <li>
           <button class="today-button">
-            <img src="./images/day.svg" alt="Today Icon" />Today
-            <div class="today-button-counter"></div>
+            <div><img src="./images/day.svg" alt="Today Icon" /> Today</div>
+            <div class="num-tasks-in-button today"></div>
           </button>
         </li>
       </ul>
@@ -74,12 +74,25 @@
       </button>
       <form class="main-add-task-form not-display" action="">
         <div class="main-add-task-inputs">
-          <input type="text" placeholder="Title" class="title-input" required />
-          <input
-            type="text"
+          <!-- <input type="text" placeholder="Title" class="title-input" required /> -->
+          <textarea
+            class="title-input"
+            name="title"
+            id="title"
+            placeholder="Title"
+            required
+            wrap="hard"
+            rows="1"
+          ></textarea>
+          <textarea
+            name="description"
+            id="description"
             placeholder="Description"
             class="description-input"
-          />
+            rows="1"
+            wrap="hard"
+            cols="41"
+          ></textarea>
         </div>
         <select
           class="select-main-add-task"
@@ -159,8 +172,8 @@
           </select>
         </div>
         <div class="project-creation-buttons">
-          <button class="cancel-project-button">Cancel</button
-          ><button type="submit" class="done-project-button" disabled>
+          <button class="cancel-project-button">Cancel</button>
+          <button type="submit" class="done-project-button" disabled>
             Done
           </button>
         </div>
