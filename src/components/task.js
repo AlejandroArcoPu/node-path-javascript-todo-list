@@ -2,6 +2,7 @@ import {
   cleanForm,
   setNumberOfTaskInButton,
   dynamicallyIncreaseHeightTextArea,
+  getRandomID,
 } from "../utils/domUtils";
 import { Task } from "../objects/Task";
 
@@ -27,9 +28,10 @@ export function task(data) {
   const createTaskElement = (task, mainClass) => {
     const mainTasks = document.querySelector(mainClass);
     const taskDiv = document.createElement("div");
-    taskDiv.classList = "task";
+    taskDiv.classList = `task ${task.id}`;
     taskDiv.textContent = task.title;
     mainTasks.appendChild(taskDiv);
+    taskDiv.addEventListener("click", showTask);
   };
 
   const createTasksElements = (type) => {
@@ -54,7 +56,7 @@ export function task(data) {
     }
   };
 
-  const displayFormTaskMain = () => {
+  const displayFormTaskMain = (event) => {
     cleanForm(".main-add-task-form");
     dynamicallyIncreaseHeightTextArea(".title-input");
     dynamicallyIncreaseHeightTextArea(".description-input");
@@ -83,6 +85,7 @@ export function task(data) {
       const typeOfForm = document.querySelector(".page-title").textContent;
       if (typeOfForm === "Today") {
         const newTask = new Task(
+          getRandomID(),
           titleInput.value,
           descriptionInput.value,
           data.getToday(),
@@ -102,6 +105,7 @@ export function task(data) {
         createTaskElement(newTask, ".main-tasks-today");
       } else {
         const newTask = new Task(
+          getRandomID(),
           titleInput.value,
           descriptionInput.value,
           data.getFormattedDate(dateSelect.value),
@@ -112,6 +116,10 @@ export function task(data) {
         setNumberOfTasks(typeOfForm);
         createTaskElement(newTask, ".main-tasks-project");
         setNumberOfTaskInButton(
+          ".num-tasks-in-button.today",
+          data.getTodayTask()
+        );
+        setNumberOfTaskInButton(
           `.num-tasks-in-button.${typeOfForm.replaceAll(" ", "")}`,
           data.getProjectTasks(typeOfForm)
         );
@@ -119,6 +127,80 @@ export function task(data) {
 
       displayFormTaskMain();
     });
+  };
+
+  const showTask = (event) => {
+    const taskId = event.currentTarget.classList[1];
+    const task = data.getTaskById(taskId);
+    const taskDialog = document.querySelector(".task-dialog");
+    taskDialog.showModal();
+    const taskDiv = document.querySelector(".task-div");
+    taskDiv.classList.add(taskId);
+    const breadcrumb = document.querySelector(".breadcrumb");
+    let breadcrumbText = "";
+    if (breadcrumb.classList.length === 1) {
+      breadcrumbText = breadcrumb.textContent;
+    }
+    const taskParent = document.querySelector(".task-parent");
+    taskParent.textContent = `${breadcrumbText} ${
+      document.querySelector(".page-title").textContent
+    } /`;
+    const taskTitle = document.querySelector(".task-title");
+    taskTitle.textContent = task.title;
+    const taskDescription = document.querySelector(".task-description");
+    taskDescription.textContent = task.description
+      ? task.description
+      : "Description";
+    const taskPriority = document.querySelector(".task-priority-value");
+    taskPriority.textContent = task.priority.toUpperCase();
+    const taskDate = document.querySelector(".task-date");
+    taskDate.textContent = task.date;
+
+    const taskDialogMark = document.querySelector(".task-dialog-mark");
+    taskDialogMark.addEventListener("click", closeTask);
+
+    const taskDialogTrash = document.querySelector(".task-dialog-trash");
+    taskDialogTrash.addEventListener("click", removeTask);
+  };
+
+  const closeTask = () => {
+    const taskDialog = document.querySelector(".task-dialog");
+    const taskDiv = document.querySelector(".task-div");
+    const taskDialogMark = document.querySelector(".task-dialog-mark");
+    const taskDialogTrash = document.querySelector(".task-dialog-trash");
+    taskDialogMark.removeEventListener("click", closeTask);
+    taskDialogTrash.removeEventListener("click", removeTask);
+    taskDiv.classList.remove(taskDiv.classList[1]);
+    taskDialog.close();
+  };
+
+  const removeTask = (event) => {
+    const parentText =
+      event.currentTarget.parentNode.parentNode.querySelector(
+        ".task-parent"
+      ).textContent;
+    let projectName = "";
+    if (parentText.includes("Today")) {
+      projectName = "My Tasks";
+    } else {
+      const words = parentText.split("/");
+      projectName = words[1].trim();
+    }
+
+    const taskId =
+      event.currentTarget.parentNode.parentNode.parentNode.classList[1];
+    data.removeTask(taskId, projectName);
+
+    const taskInDiv = document.querySelector(`.task.${taskId}`);
+    taskInDiv.remove();
+    setNumberOfTasks(projectName === "My Tasks" ? "today" : projectName);
+    setNumberOfTaskInButton(".num-tasks-in-button.today", data.getTodayTask());
+    setNumberOfTaskInButton(
+      `.num-tasks-in-button.${projectName.replaceAll(" ", "")}`,
+      data.getProjectTasks(projectName)
+    );
+
+    closeTask();
   };
 
   const clickOnAddTaskInPage = () => {

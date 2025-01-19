@@ -18,7 +18,7 @@ export function user(data) {
         event.preventDefault();
         data.addUser(nameInput.value);
         setUserName();
-        projectComponent.showProjectElement("My Tasks", "red");
+        projectComponent.createProjectElement("My Tasks", "red");
         nameDialog.close();
       };
 

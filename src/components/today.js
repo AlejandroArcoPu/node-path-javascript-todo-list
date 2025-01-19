@@ -41,5 +41,5 @@ export function today(data) {
     setNumberOfTaskInButton(".num-tasks-in-button.today", data.getTodayTask());
   };
 
-  return { setTodayDate, init };
+  return { setTodayDate, init, addListenerTodayButton };
 }

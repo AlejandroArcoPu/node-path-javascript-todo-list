@@ -50,3 +50,7 @@ export const cleanForm = (formClass) => {
   mainAddTaskForm.elements[1].style.height = "auto";
   mainAddTaskForm.reset();
 };
+
+export const getRandomID = () => {
+  return Math.random().toString(36).slice(2, 9);
+};

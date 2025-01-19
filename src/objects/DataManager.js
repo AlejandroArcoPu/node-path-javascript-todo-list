@@ -9,7 +9,7 @@ export class DataManager {
   }
 
   addProject(project, color) {
-    if (!this.projects.find((p) => p.name === project)) {
+    if (!this.projects.find((p) => p.name === project) && project !== "") {
       const newProject = new Project(project, color, []);
       this.projects.push(newProject);
       const newDataManager = new DataManager(this.projects, this.user);
@@ -20,15 +20,14 @@ export class DataManager {
     }
   }
 
-  // addProject(project, color) {
-  //   const newProject = new Project(project, color, []);
-  //   this.projects.push(newProject);
-  //   const newDataManager = new DataManager(this.projects, this.user);
-  //   localStorage.setItem(
-  //     "DataManagerEasyTasks",
-  //     JSON.stringify(newDataManager)
-  //   );
-  // }
+  removeProject(projectName) {
+    this.projects = this.projects.filter((p) => p.name !== projectName);
+    const newDataManager = new DataManager(this.projects, this.user);
+    localStorage.setItem(
+      "DataManagerEasyTasks",
+      JSON.stringify(newDataManager)
+    );
+  }
 
   addUser(user) {
     this.user = new User(user);
@@ -39,16 +38,6 @@ export class DataManager {
       JSON.stringify(newDataManager)
     );
   }
-
-  // removeProject(project) {
-  //   this.projects = this.projects.filter((p) => project.name !== p.name);
-  //   localStorage.setItem("projectsEasyTasks", JSON.stringify(this.projects));
-  // }
-
-  // addTask(newTask) {
-  //   this.tasks.push(newTask);
-  //   localStorage.setItem("tasksEasyTasks", JSON.stringify(this.tasks));
-  // }
 
   addTask(newTask, project) {
     const projectToModify = this.projects.find((p) => p.name === project);
@@ -67,6 +56,18 @@ export class DataManager {
   //   this.tasks = this.tasks.filter((t) => task.name !== t.name);
   //   localStorage.setItem("tasksEasyTasks", JSON.stringify(this.tasks));
   // }
+  removeTask(taskId, projectName) {
+    const projectOfTheTask = this.projects.find((p) => p.name === projectName);
+    projectOfTheTask.tasks = projectOfTheTask.tasks.filter(
+      (t) => t.id !== taskId
+    );
+    this.projects.map((p) => (p.name === projectName ? projectOfTheTask : p));
+    const newDataManager = new DataManager(this.projects, this.user);
+    localStorage.setItem(
+      "DataManagerEasyTasks",
+      JSON.stringify(newDataManager)
+    );
+  }
 
   getFormattedDate(date) {
     const dateToFormat = new Date(date);
@@ -107,5 +108,16 @@ export class DataManager {
       .find((pr) => pr.name === project)
       .tasks.forEach((t) => count++);
     return count;
+  }
+
+  getTaskById(id) {
+    for (const project of this.projects) {
+      for (const task of project.tasks) {
+        if (task.id === id) {
+          return task;
+        }
+      }
+    }
+    return null;
   }
 }
