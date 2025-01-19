@@ -14,12 +14,16 @@ export function project(data) {
     const projectCreationDialog = document.querySelector(
       ".project-creation-dialog"
     );
+    const projectCreationForm = document.querySelector(
+      ".project-creation-form"
+    );
     const cancelProjectButton = document.querySelector(
       ".cancel-project-button"
     );
     cleanForm(".project-creation-form");
     projectCreationDialog.close();
     cancelProjectButton.removeEventListener("click", closeCreateProjectDialog);
+    projectCreationForm.removeEventListener("submit", createProject);
   };
 
   const displayCreateProjectDialog = () => {
@@ -30,11 +34,14 @@ export function project(data) {
     const cancelProjectButton = document.querySelector(
       ".cancel-project-button"
     );
+    const projectCreationForm = document.querySelector(
+      ".project-creation-form"
+    );
     addProjectButton.addEventListener("click", () => {
       createCounterInput(".project-input", ".project-input-count", 20);
       createDisablerButton(".done-project-button", ".project-input");
       projectCreationDialog.showModal();
-      createNewProject();
+      projectCreationForm.addEventListener("submit", createProject);
       cancelProjectButton.addEventListener("click", closeCreateProjectDialog);
     });
   };
@@ -142,26 +149,19 @@ export function project(data) {
     }
   };
 
-  const createNewProject = () => {
-    const projectCreationForm = document.querySelector(
-      ".project-creation-form"
+  const createProject = (event) => {
+    event.preventDefault();
+    console.log(event.currentTarget);
+    const projectCreationDialog = document.querySelector(
+      ".project-creation-dialog"
     );
-    const createProject = (event) => {
-      console.log(event.currentTarget);
+    const projectInput = document.querySelector(".project-input");
+    const colorsSelect = document.querySelector(".colors-select");
+    data.addProject(projectInput.value, colorsSelect.value);
+    createProjectElement(projectInput.value, colorsSelect.value);
 
-      event.preventDefault();
-      const projectCreationDialog = document.querySelector(
-        ".project-creation-dialog"
-      );
-      const projectInput = document.querySelector(".project-input");
-      const colorsSelect = document.querySelector(".colors-select");
-      data.addProject(projectInput.value, colorsSelect.value);
-      createProjectElement(projectInput.value, colorsSelect.value);
-
-      cleanForm(".project-creation-form");
-      projectCreationDialog.close();
-    };
-    projectCreationForm.addEventListener("submit", createProject);
+    cleanForm(".project-creation-form");
+    projectCreationDialog.close();
   };
 
   const init = () => {
